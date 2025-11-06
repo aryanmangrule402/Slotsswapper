@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const auth = require('../middleware/auth'); // JWT auth middleware
 
 // Signup
 router.post('/signup', async (req, res) => {
@@ -37,6 +38,16 @@ router.post('/login', async (req, res) => {
         console.error(err);
         res.status(500).send('Server Error');
     }
+});
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password'); // remove password
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+    res.json(user); // returns { _id, name, email, ... }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;
