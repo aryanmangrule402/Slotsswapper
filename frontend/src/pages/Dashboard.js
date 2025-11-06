@@ -12,7 +12,7 @@ export default function Dashboard() {
   // Fetch user's own events
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("/events"); // ✅ backend route
+      const res = await axios.get("/events");
       setEvents(res.data);
     } catch (error) {
       console.error("Error fetching events:", error);
