@@ -1,6 +1,5 @@
 # 🎯 SlotSwap
 
-![License](https://img.shields.io/badge/License-MIT-blue)
 ![Frontend](https://img.shields.io/badge/Frontend-React-blue)
 ![Backend](https://img.shields.io/badge/Backend-Node.js-green)
 ![Database](https://img.shields.io/badge/Database-MongoDB-yellow)
@@ -168,11 +167,6 @@ PRs are welcome!
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
 
 ## 🎨 Screenshots
 
