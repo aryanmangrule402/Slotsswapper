@@ -32,7 +32,6 @@
 ---
 
 ## 📁 Folder Structure
-
 frontend/
 ├─ src/
 │ ├─ api/axios.js
@@ -57,15 +56,12 @@ backend/
 ├─ middleware/auth.js
 └─ server.js
 
-yaml
-Copy code
-
 ---
 
 ## ⚙️ Setup Instructions
 
 ### Backend
-
+```bash
 # Clone the repo
 git clone <your-repo-url>
 cd backend
@@ -80,39 +76,38 @@ npm install
 
 # Start server
 npm run dev
-Frontend
-bash
-Copy code
-
-## cd frontend
+```
+###Frontend
+cd frontend
 
 # Install dependencies
 npm install
 
 # Start development server
 npm start
-🔗 API Endpoints
+
 Authentication
-Method	Endpoint	Description
-POST	/auth/signup	Register new user
-POST	/auth/login	Login user
-GET	/auth/me	Get logged-in user info
-
+| Method | Endpoint     | Description             |
+| ------ | ------------ | ----------------------- |
+| POST   | /auth/signup | Register new user       |
+| POST   | /auth/login  | Login user              |
+| GET    | /auth/me     | Get logged-in user info |
 Events
-Method	Endpoint	Description
-POST	/events	Create new event
-GET	/events	Get user’s events
-PUT	/events/:id	Update event title/status
-DELETE	/events/:id	Delete event
-
+| Method | Endpoint    | Description               |
+| ------ | ----------- | ------------------------- |
+| POST   | /events     | Create new event          |
+| GET    | /events     | Get user’s events         |
+| PUT    | /events/:id | Update event title/status |
+| DELETE | /events/:id | Delete event              |
 Swaps
-Method	Endpoint	Description
-GET	/swaps/swappable-slots	Get all other users’ swappable slots
-POST	/swaps/request-swap	Request a swap
-POST	/swaps/swap-response/:id	Respond to swap request
-GET	/swaps/swap-requests	Get incoming & outgoing requests
-
+| Method | Endpoint                 | Description                          |
+| ------ | ------------------------ | ------------------------------------ |
+| GET    | /swaps/swappable-slots   | Get all other users’ swappable slots |
+| POST   | /swaps/request-swap      | Request a swap                       |
+| POST   | /swaps/swap-response/:id | Respond to swap request              |
+| GET    | /swaps/swap-requests     | Get incoming & outgoing requests     |
 🧩 User Workflow
+
 Register & Login
 
 Signup as a new user
@@ -144,6 +139,7 @@ Logout
 End session and return to login page
 
 📝 Assumptions & Notes
+
 Only SWAPPABLE events can be offered for swaps
 
 Users can make multiple slots swappable
@@ -153,3 +149,7 @@ JWT token stored in browser localStorage
 Backend must run on http://localhost:4000 for frontend API calls
 
 State updates dynamically; dashboard reflects changes immediately
+
+
+
+
