@@ -1,7 +1,9 @@
 # 🎯 SlotSwap - Event Slot Swapping Platform
 
+---
+
 ## Overview
-SlotSwap is a web application that allows users to **swap event slots** with other users seamlessly. Users can create their own events, mark slots as swappable, browse other users’ swappable slots, send swap requests, and manage incoming/outgoing requests. The platform ensures proper **authorization** and dynamic updates to the user's calendar after swap actions.  
+SlotSwap is a web application that allows users to **swap event slots** with other users seamlessly. Users can create their own events, mark slots as swappable, browse other users’ swappable slots, send swap requests, and manage incoming/outgoing requests.
 
 **Key Features:**
 - User registration & login
@@ -21,47 +23,35 @@ SlotSwap is a web application that allows users to **swap event slots** with oth
 
 ---
 
-## Project Setup
+## Setup Instructions
 
-### Backend
-1. Clone the repository and navigate to the backend folder:
-   ```bash
-   git clone <repo-url>
-   cd backend
-Install dependencies:
+### 1️⃣ Backend Setup
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd backend
 
-bash
-Copy code
+# Install dependencies
 npm install
-Create a .env file:
 
-env
-Copy code
-PORT=4000
-MONGO_URI=<your-mongodb-connection-string>
-JWT_SECRET=<your-jwt-secret>
-Start the server:
+# Create a .env file with:
+# PORT=4000
+# MONGO_URI=<your-mongodb-connection-string>
+# JWT_SECRET=<your-jwt-secret>
 
-bash
-Copy code
+# Start backend server
 npm run dev
-Backend server runs at: http://localhost:4000
+Backend runs at: http://localhost:4000
 
-Frontend
-Navigate to the frontend folder:
-
+2️⃣ Frontend Setup
 bash
 Copy code
 cd frontend
-Install dependencies:
 
-bash
-Copy code
+# Install dependencies
 npm install
-Start the React app:
 
-bash
-Copy code
+# Start frontend
 npm start
 Frontend runs at: http://localhost:3000
 
@@ -95,14 +85,14 @@ backend/
 API Endpoints
 Authentication
 Method	Endpoint	Description	Body
-POST	/auth/signup	Register a new user	{ name, email, password }
+POST	/auth/signup	Register new user	{ name, email, password }
 POST	/auth/login	Login user	{ email, password }
 GET	/auth/me	Get logged-in user info	Header: Authorization: Bearer <token>
 
 Events
 Method	Endpoint	Description	Body
 POST	/events	Create new event	{ title, startTime, endTime }
-GET	/events	Get all events of logged-in user	Header: Authorization
+GET	/events	Get user’s events	Header: Authorization
 PUT	/events/:id	Update event title/status	{ title?, status? }
 DELETE	/events/:id	Delete event	Header: Authorization
 
@@ -110,52 +100,42 @@ Swaps
 Method	Endpoint	Description	Body
 GET	/swaps/swappable-slots	Get all other users’ swappable slots	Header: Authorization
 POST	/swaps/request-swap	Request a swap	{ mySlotId, theirSlotId }
-POST	/swaps/swap-response/:id	Respond to a swap request	{ accepted: true/false }
+POST	/swaps/swap-response/:id	Respond to swap request	{ accepted: true/false }
 GET	/swaps/swap-requests	Get incoming & outgoing requests	Header: Authorization
 
 User Workflow
 Registration & Login
 
-New users sign up and log in.
+Sign up as a new user.
 
-Users see a personalized navbar and their name displayed.
+Login to access dashboard, marketplace, and requests.
+
+Navbar shows logged-in user name and proper buttons (Login/Signup or Logout).
 
 Dashboard
 
-View personal events in a calendar/list.
+View personal events in calendar/list.
 
-Create new events with title, startTime, endTime.
+Create new events.
 
-Change event status to SWAPPABLE to make it available for swap.
+Change status to SWAPPABLE to make it available for swaps.
 
 Marketplace
 
 Browse swappable slots from other users.
 
-Click “Request Swap” to select one of your own swappable slots.
+Click "Request Swap" to select one of your own swappable slots.
 
-Send the swap request to the target user.
+Send swap requests.
 
 Requests Page
 
-View Incoming Requests from other users with accept/reject buttons.
+View Incoming Requests with Accept/Reject options.
 
-View Outgoing Requests with status (Pending/Accepted/Rejected).
+View Outgoing Requests showing status.
 
-Accepting a swap exchanges the ownership of slots.
+Accepting swaps exchanges ownership of slots and updates dashboard dynamically.
 
-State Management
+Logout
 
-All changes reflect dynamically in the dashboard and marketplace.
-
-Protected routes prevent unauthorized access.
-
-Assumptions & Notes
-A slot can only be swapped when its status is SWAPPABLE.
-
-Users can make multiple slots swappable at once.
-
-JWT is used for authentication; token stored in localStorage.
-
-Backend must be running at http://localhost:4000 for frontend requests to work.
-
+Click logout to remove token and redirect to login page.
