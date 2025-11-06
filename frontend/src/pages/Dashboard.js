@@ -1,3 +1,4 @@
+// src/pages/Dashboard.js
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 
@@ -6,61 +7,108 @@ export default function Dashboard() {
   const [title, setTitle] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
+  // Fetch user's own events
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("/events", { headers: { Authorization: localStorage.getItem("token") } });
+      const res = await axios.get("/events"); // ✅ backend route
       setEvents(res.data);
-    } catch {
-      setMessage("Failed to fetch events");
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const addEvent = async (e) => {
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  // Create new event
+  const createEvent = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/events", { title, startTime, endTime }, { headers: { Authorization: localStorage.getItem("token") } });
-      setTitle(""); setStartTime(""); setEndTime("");
-      fetchEvents();
-    } catch {
-      setMessage("Failed to add event");
+      await axios.post("/events", { title, startTime, endTime });
+      setTitle("");
+      setStartTime("");
+      setEndTime("");
+      fetchEvents(); // refresh list
+    } catch (error) {
+      console.error("Error creating event:", error);
     }
   };
 
-  const toggleSwappable = async (id, status) => {
-    const newStatus = status === "BUSY" ? "SWAPPABLE" : "BUSY";
+  // Update event status (toggle BUSY <-> SWAPPABLE)
+  const toggleStatus = async (id, currentStatus) => {
+    const newStatus = currentStatus === "BUSY" ? "SWAPPABLE" : "BUSY";
     try {
-      await axios.put(`/events/${id}`, { status: newStatus }, { headers: { Authorization: localStorage.getItem("token") } });
+      await axios.put(`/events/${id}`, { status: newStatus });
       fetchEvents();
-    } catch {
-      setMessage("Failed to update status");
+    } catch (error) {
+      console.error("Error updating event status:", error);
     }
   };
 
-  useEffect(() => { fetchEvents(); }, []);
+  // Delete event
+  const deleteEvent = async (id) => {
+    try {
+      await axios.delete(`/events/${id}`);
+      fetchEvents();
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
+  };
+
+  if (loading) return <p>Loading events...</p>;
 
   return (
     <div className="container">
-      <h1>My Events</h1>
-      {message && <p style={{ color: "red" }}>{message}</p>}
-      <form onSubmit={addEvent}>
-        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Event Title" required />
-        <input type="datetime-local" value={startTime} onChange={e => setStartTime(e.target.value)} required />
-        <input type="datetime-local" value={endTime} onChange={e => setEndTime(e.target.value)} required />
+      <h1>Your Events</h1>
+
+      <form onSubmit={createEvent} className="form">
+        <input
+          type="text"
+          placeholder="Event title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+        <input
+          type="datetime-local"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          required
+        />
+        <input
+          type="datetime-local"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+          required
+        />
         <button type="submit">Add Event</button>
       </form>
 
-      <ul>
-        {events.map(ev => (
-          <li key={ev._id}>
-            {ev.title} | {new Date(ev.startTime).toLocaleString()} - {new Date(ev.endTime).toLocaleString()} | {ev.status}
-            <button onClick={() => toggleSwappable(ev._id, ev.status)}>
-              {ev.status === "BUSY" ? "Make Swappable" : "Make Busy"}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="events">
+        {events.length === 0 ? (
+          <p>No events yet.</p>
+        ) : (
+          events.map((event) => (
+            <div key={event._id} className="event-card">
+              <h3>{event.title}</h3>
+              <p>
+                {new Date(event.startTime).toLocaleString()} -{" "}
+                {new Date(event.endTime).toLocaleString()}
+              </p>
+              <p>Status: <strong>{event.status}</strong></p>
+              <button onClick={() => toggleStatus(event._id, event.status)}>
+                {event.status === "BUSY" ? "Make Swappable" : "Set Busy"}
+              </button>
+              <button onClick={() => deleteEvent(event._id)}>Delete</button>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
