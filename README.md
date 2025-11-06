@@ -65,7 +65,7 @@ Copy code
 ## ⚙️ Setup Instructions
 
 ### Backend
-```bash
+
 # Clone the repo
 git clone <your-repo-url>
 cd backend
@@ -83,7 +83,8 @@ npm run dev
 Frontend
 bash
 Copy code
-cd frontend
+
+## cd frontend
 
 # Install dependencies
 npm install
