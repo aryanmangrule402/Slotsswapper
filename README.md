@@ -1,49 +1,86 @@
-# 🎯 SlotSwap - Event Slot Swapping Platform
+# 🎯 SlotSwap
+
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Frontend](https://img.shields.io/badge/Frontend-React-blue)
+![Backend](https://img.shields.io/badge/Backend-Node.js-green)
+![Database](https://img.shields.io/badge/Database-MongoDB-yellow)
 
 ---
 
-## Overview
-SlotSwap is a web application that allows users to **swap event slots** with other users seamlessly. Users can create their own events, mark slots as swappable, browse other users’ swappable slots, send swap requests, and manage incoming/outgoing requests.
+## 🚀 Overview
+**SlotSwap** is a modern web application that enables users to **swap event slots** with other users seamlessly. Perfect for managing schedules, shifting responsibilities, or sharing time slots efficiently.  
 
-**Key Features:**
-- User registration & login
-- Dashboard with personal events
-- Mark events as BUSY or SWAPPABLE
-- Marketplace for browsing other users’ swappable slots
-- Swap requests management (accept/reject)
-- Real-time updates on event swaps
-
----
-
-## Tech Stack
-- **Frontend:** React.js, Axios, React Router
-- **Backend:** Node.js, Express.js, MongoDB, Mongoose
-- **Authentication:** JWT
-- **Styling:** CSS
+**Features:**
+- User authentication (Signup/Login)
+- Dashboard to manage personal events
+- Mark events as `BUSY` or `SWAPPABLE`
+- Marketplace to browse swappable slots from other users
+- Swap requests management (incoming/outgoing)
+- Dynamic state updates for seamless UX
 
 ---
 
-## Setup Instructions
+## 🛠️ Tech Stack
 
-### 1️⃣ Backend Setup
+| Layer       | Technology      |
+|------------ |----------------|
+| Frontend    | React.js, Axios, CSS |
+| Backend     | Node.js, Express.js |
+| Database    | MongoDB, Mongoose |
+| Auth        | JWT (JSON Web Token) |
+
+---
+
+## 📁 Folder Structure
+
+frontend/
+├─ src/
+│ ├─ api/axios.js
+│ ├─ components/
+│ │ ├─ Navbar.js
+│ │ └─ ProtectedRoute.js
+│ ├─ pages/
+│ │ ├─ Dashboard.js
+│ │ ├─ Marketplace.js
+│ │ ├─ Requests.js
+│ │ ├─ Login.js
+│ │ └─ Signup.js
+│ └─ index.js
+backend/
+├─ models/
+│ ├─ Event.js
+│ └─ SwapRequest.js
+├─ routes/
+│ ├─ auth.js
+│ ├─ events.js
+│ └─ swaps.js
+├─ middleware/auth.js
+└─ server.js
+
+yaml
+Copy code
+
+---
+
+## ⚙️ Setup Instructions
+
+### Backend
 ```bash
-# Clone the repository
+# Clone the repo
 git clone <your-repo-url>
 cd backend
 
 # Install dependencies
 npm install
 
-# Create a .env file with:
+# Create .env file
 # PORT=4000
-# MONGO_URI=<your-mongodb-connection-string>
-# JWT_SECRET=<your-jwt-secret>
+# MONGO_URI=<your-mongo-uri>
+# JWT_SECRET=<your-secret-key>
 
-# Start backend server
+# Start server
 npm run dev
-Backend runs at: http://localhost:4000
-
-2️⃣ Frontend Setup
+Frontend
 bash
 Copy code
 cd frontend
@@ -51,91 +88,67 @@ cd frontend
 # Install dependencies
 npm install
 
-# Start frontend
+# Start development server
 npm start
-Frontend runs at: http://localhost:3000
-
-Folder Structure
-bash
-Copy code
-frontend/
-├─ src/
-│  ├─ api/axios.js          # Axios instance
-│  ├─ components/
-│  │  ├─ Navbar.js          # Navigation bar
-│  │  └─ ProtectedRoute.js  # Authenticated route guard
-│  ├─ pages/
-│  │  ├─ Dashboard.js       # User events and calendar
-│  │  ├─ Marketplace.js     # Browse and request swaps
-│  │  ├─ Requests.js        # Incoming & outgoing swap requests
-│  │  ├─ Login.js
-│  │  └─ Signup.js
-│  └─ index.js
-backend/
-├─ models/
-│  ├─ Event.js
-│  └─ SwapRequest.js
-├─ routes/
-│  ├─ auth.js
-│  ├─ events.js
-│  └─ swaps.js
-├─ middleware/auth.js
-├─ server.js
-└─ .env
-API Endpoints
+🔗 API Endpoints
 Authentication
-Method	Endpoint	Description	Body
-POST	/auth/signup	Register new user	{ name, email, password }
-POST	/auth/login	Login user	{ email, password }
-GET	/auth/me	Get logged-in user info	Header: Authorization: Bearer <token>
+Method	Endpoint	Description
+POST	/auth/signup	Register new user
+POST	/auth/login	Login user
+GET	/auth/me	Get logged-in user info
 
 Events
-Method	Endpoint	Description	Body
-POST	/events	Create new event	{ title, startTime, endTime }
-GET	/events	Get user’s events	Header: Authorization
-PUT	/events/:id	Update event title/status	{ title?, status? }
-DELETE	/events/:id	Delete event	Header: Authorization
+Method	Endpoint	Description
+POST	/events	Create new event
+GET	/events	Get user’s events
+PUT	/events/:id	Update event title/status
+DELETE	/events/:id	Delete event
 
 Swaps
-Method	Endpoint	Description	Body
-GET	/swaps/swappable-slots	Get all other users’ swappable slots	Header: Authorization
-POST	/swaps/request-swap	Request a swap	{ mySlotId, theirSlotId }
-POST	/swaps/swap-response/:id	Respond to swap request	{ accepted: true/false }
-GET	/swaps/swap-requests	Get incoming & outgoing requests	Header: Authorization
+Method	Endpoint	Description
+GET	/swaps/swappable-slots	Get all other users’ swappable slots
+POST	/swaps/request-swap	Request a swap
+POST	/swaps/swap-response/:id	Respond to swap request
+GET	/swaps/swap-requests	Get incoming & outgoing requests
 
-User Workflow
-Registration & Login
+🧩 User Workflow
+Register & Login
 
-Sign up as a new user.
+Signup as a new user
 
-Login to access dashboard, marketplace, and requests.
-
-Navbar shows logged-in user name and proper buttons (Login/Signup or Logout).
+Login to access dashboard
 
 Dashboard
 
-View personal events in calendar/list.
+View all personal events
 
-Create new events.
+Add new events
 
-Change status to SWAPPABLE to make it available for swaps.
+Mark events as SWAPPABLE
 
 Marketplace
 
-Browse swappable slots from other users.
+Browse swappable slots of other users
 
-Click "Request Swap" to select one of your own swappable slots.
+Request swap by selecting one of your own SWAPPABLE slots
 
-Send swap requests.
+Requests
 
-Requests Page
+Incoming requests: Accept or reject swap offers
 
-View Incoming Requests with Accept/Reject options.
-
-View Outgoing Requests showing status.
-
-Accepting swaps exchanges ownership of slots and updates dashboard dynamically.
+Outgoing requests: Track status (Pending/Accepted/Rejected)
 
 Logout
 
-Click logout to remove token and redirect to login page.
+End session and return to login page
+
+📝 Assumptions & Notes
+Only SWAPPABLE events can be offered for swaps
+
+Users can make multiple slots swappable
+
+JWT token stored in browser localStorage
+
+Backend must run on http://localhost:4000 for frontend API calls
+
+State updates dynamically; dashboard reflects changes immediately
